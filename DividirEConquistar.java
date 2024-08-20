@@ -7,7 +7,7 @@ public class DividirEConquistar {
         analise("mergeSort");
         analise("maxVal1");
         analise("maxVal2");
-
+        analise("multiply");
     }
 
     private static void analise(String metodo) {
@@ -16,34 +16,77 @@ public class DividirEConquistar {
         long t2 = 0;
         long t;
 
-        for (int i = 0; i < valores.length; i++) {
-            System.out.println("----" + metodo + "----");
-            System.out.printf("Lista com " + valores[i] + " numeros.");
-            System.out.println();
-            
-            List<Integer> list = geraLista(valores[i]/2, valores[i]/2);
+        if (metodo.equals("multiply")) {
+            long[] valores_multiply = new long[6];
+            Random rnd = new Random();
+            int n = 0;
+            long potencia = 4;
 
-            if (metodo.equals("mergeSort")){
-                t1 = currentTime();
-                mergeSort(list);
-            } 
-            else if (metodo.equals("maxVal1")){
-                t1 = currentTime();
-                maxVal1(list);
-            } 
-            else if (metodo.equals("maxVal2")){
-                t1 = currentTime();
-                maxVal2(list, 0, list.size()-1);
+            for (int i = 0; i < valores_multiply.length; i++) {
+                if (i%2 == 0) 
+                    n+=2;
+                
+                potencia = ((int) Math.pow(2, n));
+                potencia = ((int) Math.pow(2, potencia));
+            
+                long rand = rnd.nextLong(potencia);
+                valores_multiply[i] = rand;
             }
 
-            t2 = currentTime();
-            t = t2-t1;
+            for (int i = 0; i < valores_multiply.length-1; i+=2) {
+                System.out.println("----" + metodo.toUpperCase() + "----");
+                long atual = valores_multiply[i];
+                long prox = valores_multiply[i+1];
 
-            System.out.printf("Tempo decorrido : " + t + "ms");
-            System.out.println();
-            System.out.println();
+                System.out.printf("Multiplicando %d e %d: ", atual, prox);
+                t1 = currentTime();
+                System.out.println(multiply(atual, prox, numBits(atual)));
+
+                t2 = currentTime();
+                t = t2-t1;
+                System.out.printf("Tempo decorrido: %d ms.%n%n", t);
+            }
         }
+
+        else{
+            for (int valor : valores) {
+                System.out.println("----" + metodo.toUpperCase() + "----");
+                System.out.printf("Lista com %d numeros.%n", valor);
+                
+                List<Integer> list = geraLista(valor/2, valor/2);
+
+                
+                switch (metodo) {
+                    case "mergeSort":
+                        t1 = currentTime();
+                        mergeSort(list);
+                        break;
+                    case "maxVal1":
+                        t1 = currentTime();
+                        maxVal1(list);
+                    case "maxVal2":
+                        t1 = currentTime();
+                        maxVal2(list, 0, list.size()-1);
+                    default:
+                        break;
+                }
+
+                t2 = currentTime();
+                t = t2-t1;
+    
+                System.out.printf("Tempo decorrido: %d ms.%n%n", t);
+            }
+        }
+        
         System.out.println("-------------------------------");
+    }
+
+    private static int numBits(long n) {
+        if (n == 1) 
+            return 1;
+        if (n == 2) 
+            return 2;
+        return 1 + numBits(n / 2);
     }
 
     public static int maxVal1(List<Integer> A) {  
@@ -74,6 +117,24 @@ public class DividirEConquistar {
 
     private static Long currentTime() {
         return System.currentTimeMillis();
+    }
+
+    public static long multiply(long x, long y, long n) {
+        if (n == 1)
+            return x * y;
+    
+        long m = n / 2;
+        long a = x >> m;
+        long b = x & ((1 << m) - 1);
+        long c = y >> m;
+        long d = y & ((1 << m) - 1);
+    
+        long e = multiply(a, c, m);
+        long f = multiply(b, d, m);
+        long g = multiply(b, c, m);
+        long h = multiply(a, d, m);
+    
+        return (e << (2 * m)) + ((g + h) << m) + f;
     }
 
     private static List<Integer> geraLista(int nroPares, int nroImpares) {
