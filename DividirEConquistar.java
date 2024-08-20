@@ -55,7 +55,6 @@ public class DividirEConquistar {
                 
                 List<Integer> list = geraLista(valor/2, valor/2);
 
-                
                 switch (metodo) {
                     case "mergeSort":
                         t1 = currentTime();
