@@ -63,9 +63,11 @@ public class DividirEConquistar {
                     case "maxVal1":
                         t1 = currentTime();
                         maxVal1(list);
+                        break;
                     case "maxVal2":
                         t1 = currentTime();
                         maxVal2(list, 0, list.size()-1);
+                        break;
                     default:
                         break;
                 }
