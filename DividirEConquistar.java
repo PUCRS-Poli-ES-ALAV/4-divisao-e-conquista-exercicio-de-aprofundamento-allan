@@ -212,6 +212,49 @@ public class DividirEConquistar {
         return 0;
     }
 
+    // public static long multiply2(String x, String y) {
+    //     int size = x.length();
+    //     if (size == 1) {
+    //         if (!(x.equals("0") && y.equals("0"))){
+    //             iteracoes++;
+    //             return 1;
+    //         }
+    //         else{
+    //             return 0;
+    //         }
+    //     }
+    //     else if(size > 1) {
+    //         iteracoes++;
+
+    //         int m = size / 2;
+    //         long a = insertZerosInFront(x, m) + x.substring(0,x.length() + 1 - m);
+    //         long b = 
+    //         long c = insertZerosInFront(y, m) + x.substring(0,y.length() + 1 - m);
+    //         long d = 
+    //         iteracoes += 
+
+    //         long e = multiply(a, c);
+    //         long f = multiply(b, d);
+    //         long g = multiply(b, c);
+    //         long h = multiply(a, d);
+
+    //         iteracoes += 4;
+
+    //         return (e << (2 * m)) + ((g + h) << m) + f;
+    //     }
+    //     return 0;
+    // }
+
+    private String insertZerosInFront(String a, int amount) {
+        String[] v = new String[amount];
+
+        for (String item : v) {
+            item = "0";
+        }
+
+        return String.join("", v) + a;
+    }
+
     private static List<Integer> geraLista(int nroPares, int nroImpares) {
         List<Integer> res = new ArrayList<>();
         int contPar = 0, contImpar = 0;
