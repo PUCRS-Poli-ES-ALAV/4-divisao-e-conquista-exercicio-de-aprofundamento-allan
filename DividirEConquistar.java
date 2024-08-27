@@ -26,11 +26,12 @@ public class DividirEConquistar {
         analise("maxVal1");
         analise("maxVal2");
         analise("multiply");
+        analise("multiply2");
         
         t2 = currentTime();
         t = t2-t1;
 
-        System.out.printf("Tempo Total: %ds", t/1000000000);
+        System.out.printf("Tempo Total: %.3fs%n", t / 1_000_000_000.0);
     }
 
     public static void writeCsv(String fileName, List<String[]> data) {
@@ -58,9 +59,6 @@ public class DividirEConquistar {
 
         for (int i = 0; i < repeticoes; i++) {
             switch (metodo) {
-                case "multiply":
-                    analiseMultiply(metodo);
-                    break;
                 case "mergeSort":
                     genericAnalise(metodo, (list) -> mergeSort(list));
                     break;
@@ -69,6 +67,12 @@ public class DividirEConquistar {
                     break;
                 case "maxVal2":
                     genericAnalise(metodo, (list) -> maxVal2(list, 0, list.size() - 1));
+                    break;
+                case "multiply":
+                    analiseMultiply(metodo);
+                    break;
+                case "multiply2":
+                    analiseMultiply(metodo);
                     break;
                 default:
                     System.out.println("Método não reconhecido.");
@@ -116,7 +120,7 @@ public class DividirEConquistar {
         }
     
         for (int i = 0; i < valores_multiply.length - 1; i += 2) {
-            System.out.println("----MULTIPLY----");
+            System.out.println("----" + metodo.toUpperCase() + "----");
             long atual = valores_multiply[i];
             long prox = valores_multiply[i + 1];
             iteracoes = 0;
@@ -212,47 +216,31 @@ public class DividirEConquistar {
         return 0;
     }
 
-    // public static long multiply2(String x, String y) {
-    //     int size = x.length();
-    //     if (size == 1) {
-    //         if (!(x.equals("0") && y.equals("0"))){
-    //             iteracoes++;
-    //             return 1;
-    //         }
-    //         else{
-    //             return 0;
-    //         }
-    //     }
-    //     else if(size > 1) {
-    //         iteracoes++;
-
-    //         int m = size / 2;
-    //         long a = insertZerosInFront(x, m) + x.substring(0,x.length() + 1 - m);
-    //         long b = 
-    //         long c = insertZerosInFront(y, m) + x.substring(0,y.length() + 1 - m);
-    //         long d = 
-    //         iteracoes += 
-
-    //         long e = multiply(a, c);
-    //         long f = multiply(b, d);
-    //         long g = multiply(b, c);
-    //         long h = multiply(a, d);
-
-    //         iteracoes += 4;
-
-    //         return (e << (2 * m)) + ((g + h) << m) + f;
-    //     }
-    //     return 0;
-    // }
-
-    private String insertZerosInFront(String a, int amount) {
-        String[] v = new String[amount];
-
-        for (String item : v) {
-            item = "0";
+    public static long multiply2(String x, String y) {
+        int size = x.length();
+        if (size == 1) {
+            return (long)(Integer.parseInt(x) * Integer.parseInt(y));
         }
+        else if(size > 1) {
+            iteracoes++;
 
-        return String.join("", v) + a;
+            int m = size / 2;
+            String a = x.substring(0, m);
+            String b = x.substring(m);
+            String c = y.substring(0, m);
+            String d = y.substring(m);
+            iteracoes += 4;
+
+            long e = multiply2(a, c);
+            long f = multiply2(b, d);
+            long g = multiply2(b, c);
+            long h = multiply2(a, d);
+
+            iteracoes += 4;
+
+            return (e << (2 * (size-m))) + ((g + h) << (size-m)) + f;
+        }
+        return 0;
     }
 
     private static List<Integer> geraLista(int nroPares, int nroImpares) {
